@@ -1,7 +1,7 @@
 {
-  "name": "my-awesome-package",
+  "name": "proxy-members",
   "version": "1.0.0",
-  "description": "Look at this great package. Lots of stuff.",
+  "description": "Simple way to define private members on ES6 classes, keep their code clean.",
   "main": "dist/index.js",
   "scripts": {
     "lint": "cd ./lib && standard | snazzy",
