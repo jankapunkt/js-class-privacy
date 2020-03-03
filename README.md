@@ -37,12 +37,8 @@ export class Person {
   }
 }
 
-// make all functions public, all other members are private
-// it is your responsibility to prevent leakage of information
-// for example if value is passed to external functions that aid
-// for a decision. 
-// Think twice, before you pass value to third party libraries.
-const decide = (key, value) => typeof value === 'function'
+// make all functions public, all other members are private 
+const decide = (key, type) => type === 'function'
 
 // create the factory for private persons 
 const createPrivatePerson = createFactory(Person, { decide })
@@ -61,18 +57,17 @@ configurations, defined as `options`:
 #### `decide`
 
 A function that is invoked on every access request (proxy `get` trap) 
-and receives `key`, `value` and `ClassDefinition` to decide, whether
-this value should be allowed to be public or kept being private.
+and receives `key`, `type` and `ClassDefinition` to decide, whether
+this member should be allowed to be public or kept being private.
 
 Signature:
 
 ```javascript
-decide: (key, value, ClassDefinition) => Boolean
+decide: (key, type, ClassDefinition) => Boolean
 ```
 
 Non-boolean return values are evaluated as truthy/falsy.
-
-If not passed, all members are included by default to preserve the original
+If not passed in options, all members are included by default to preserve the original
 state.
 
 #### `revealIsProxy`
