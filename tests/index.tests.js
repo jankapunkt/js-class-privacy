@@ -57,7 +57,7 @@ describe(createFactory.name, function () {
       expect(quietPerson.greet).to.equal(undefined)
     })
     it ('allows to white-list members by type', function () {
-      const decide = (key, value) => typeof value === 'function'
+      const decide = (key, type) => type === 'function'
       const factory = createFactory(Person, { decide })
       const args = { name: 'Quiet Joe', age: 66 }
       const publicPerson = new Person(args)
@@ -78,7 +78,7 @@ describe(createFactory.name, function () {
     })
     it ('allows to black-list members by type', function () {
       const blockedTypes = ['string', 'number']
-      const decide = (key, value) => !blockedTypes.includes(typeof value)
+      const decide = (key, type) => !blockedTypes.includes(type)
       const factory = createFactory(Person, { decide })
       const args = { name: 'Quiet Joe', age: 66 }
       const publicPerson = new Person(args)
@@ -91,7 +91,7 @@ describe(createFactory.name, function () {
 
   describe('leakage prevention', function () {
     it ('does not leak a reference to the instance via any symbol', function () {
-      const decide = (key, value) => typeof value === 'function'
+      const decide = (key, type) => type === 'function'
       const factory = createFactory(Person, { decide })
       const args = { name: 'Quiet Joe', age: 66 }
       const quietPerson = factory(args)
@@ -101,7 +101,7 @@ describe(createFactory.name, function () {
       expect(allSymbols.length).to.equal(0)
     })
     it ('does not leak a reference to the instance via Reflect.ownKeys', function () {
-      const decide = (key, value) => typeof value === 'function'
+      const decide = (key, type) => type === 'function'
       const factory = createFactory(Person, { decide })
       const args = { name: 'Quiet Joe', age: 66 }
       const quietPerson = factory(args)
@@ -113,7 +113,7 @@ describe(createFactory.name, function () {
       expect(allKeys.length).to.equal(0)
     })
     it ('does not leak a reference to the instance via String casting', function () {
-      const decide = (key, value) => typeof value === 'function'
+      const decide = (key, type) => type === 'function'
       const factory = createFactory(Person, { decide })
       const args = { name: 'Quiet Joe', age: 66 }
       const quietPerson = factory(args)
