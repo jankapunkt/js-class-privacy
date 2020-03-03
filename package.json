@@ -1,6 +1,6 @@
 {
   "name": "class-privacy",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Simple way to define private members on ES6 classes, keep their code clean.",
   "main": "dist/index.js",
   "scripts": {
