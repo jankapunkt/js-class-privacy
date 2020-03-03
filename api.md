@@ -9,7 +9,7 @@
 ## Functions
 
 <dl>
-<dt><a href="#promem">promem(ClassDefinition)</a> ⇒ <code>function</code></dt>
+<dt><a href="#createFactory">createFactory(ClassDefinition)</a> ⇒ <code>function</code></dt>
 <dd><p>Creates a factory function that produces proxies to instances of a {class} definition, based on</p>
 </dd>
 </dl>
@@ -20,9 +20,9 @@
 defaults to a function always returning true
 
 **Kind**: global constant  
-<a name="promem"></a>
+<a name="createFactory"></a>
 
-## promem(ClassDefinition) ⇒ <code>function</code>
+## createFactory(ClassDefinition) ⇒ <code>function</code>
 Creates a factory function that produces proxies to instances of a {class} definition, based on
 
 **Kind**: global function  
@@ -35,12 +35,12 @@ Creates a factory function that produces proxies to instances of a {class} defin
 | options.revealIsProxy | <code>boolean</code> | if true it allows external code to ask for {isProxy} which then returns true |
 | options.referenceClass | <code>boolean</code> | if true it allows external code to ask for {class} which then returns        the referenced original class definition but never the instance |
 
-<a name="promem..factory"></a>
+<a name="createFactory..factory"></a>
 
-### promem~factory(...invocationArgs) ⇒ <code>proxy</code>
+### createFactory~factory(...invocationArgs) ⇒ <code>proxy</code>
 Creates an instance of the given ClassDefinition
 
-**Kind**: inner method of [<code>promem</code>](#promem)  
+**Kind**: inner method of [<code>createFactory</code>](#createFactory)  
 
 | Param | Description |
 | --- | --- |

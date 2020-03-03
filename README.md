@@ -1,35 +1,127 @@
-# :package: NPM Package Template :package:
+# :lock: Javascript Class-Privacy
 
-[![Build Status](https://travis-ci.org/jankapunkt/npm-package-template.svg?branch=master)](https://travis-ci.org/jankapunkt/npm-package-template)
+[![Build Status](https://travis-ci.org/jankapunkt/npm-package-template.svg?branch=master)](https://travis-ci.org/jankapunkt/js-class-privacy)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
-Minimal tested and fully functional NPM package template project for ES6+ Javascript.
 
-## About this package
+Lean dry no-dep srp :cup: package to create instances from classes with defined private members.
+Keep your classes clean und use this instead to define private properties.
+Uses proxies to hide information.
 
-This template is intended to allow you to **start developing immediatly** with a working set
-of tools and scripts that play well together.
+## Installation and basic usage
 
-It is little opinionated to the point, that only the most basic tools are integrated.
-If you want a different flavour you can fork this project and easily replace the tools or add new ones.
+Install this package via NPM like
 
-## Which tools are used?
+```bash
+$ npm install class-privacy
+```
 
-All tools are only defined as **`dev-dependencies`**:
+The packages exports only one function, that acts similar to an abstract factory.
+You can pass in a `decide` function to define rules (e.g. whitelist)
+for members. The created factory can be used to create (proxies to) instances that
+contain only the public members.
 
-* [Babel](https://babeljs.io/) for transpiling ES6+ to ES5 plus minification, sourcemaps etc.
-* [Mocha](https://mochajs.org/) and [Chai](https://www.chaijs.com) for testing
-* [Istanbul](https://istanbul.js.org/) for code coverage
-* [Standard](https://standardjs.com/) for linting
-* [JSDoc](https://jsdoc.app/) for documentation and [jsdoc-to-markdown](https://www.npmjs.com/package/jsdoc-to-markdown) to create docs as markdown files
-* [Travis-CI](https://travis-ci.org/) for continuous integration
+```javascript
+import createFactory from 'class-privacy'
 
+export class Person {
+  constructor ({ name, age }) {
+    this.name = name
+    this.age = age
+  }
 
-## Getting started
+  greet () {
+    return `Hello, my name is "${this.name}". I am ${this.age} years old.`
+  }
+}
 
-Just create your Js files in the `./lib` folder and add the tests in the `test` folder.
+// make all functions public, all other members are private
+// it is your responsibility to prevent leakage of information
+// for example if value is passed to external functions that aid
+// for a decision. 
+// Think twice, before you pass value to third party libraries.
+const decide = (key, value) => typeof value === 'function'
 
+// create the factory for private persons 
+const createPrivatePerson = createFactory(Person, { decide })
+
+const anon = createPrivatePerson({ name: 'John Doe', age: 42 })
+anon.name // undefined
+anon.age // undefined
+anon.greet() // `Hello, my name is "John Doe". I am 42 years old.`
+```
+
+### Options
+
+As shown in the example above, the factory can be created with certain
+configurations, defined as `options`:
+
+#### `decide`
+
+A function that is invoked on every access request (proxy `get` trap) 
+and receives `key`, `value` and `ClassDefinition` to decide, whether
+this value should be allowed to be public or kept being private.
+
+Signature:
+
+```javascript
+decide: (key, value, ClassDefinition) => Boolean
+```
+
+Non-boolean return values are evaluated as truthy/falsy.
+
+If not passed, all members are included by default to preserve the original
+state.
+
+#### `revealIsProxy`
+
+If this option is set to `true` the `isProxy` property will be added to the
+proxy in order to allow a classification of the Object as proxy.
+
+```javascript
+import createFactory from 'class-privacy'
+
+export class Person {
+  constructor ({ name, age }) {
+    this.name = name
+    this.age = age
+  }
+
+  greet () {
+    return `Hello, my name is "${this.name}". I am ${this.age} years old.`
+  }
+}
+
+const createPrivatePerson = createFactory(Person, { revealIsProxy: true })
+const anon = createPrivatePerson({ name: 'John Doe', age: 42 })
+anon.isProxy // true
+```
+
+#### `referenceClass`
+
+If this option is set to `true` the `class` property will be added to the
+proxy in order to allow a classification of the instance as proxy to the given 
+class definition.
+
+```javascript
+import createFactory from 'class-privacy'
+
+export class Person {
+  constructor ({ name, age }) {
+    this.name = name
+    this.age = age
+  }
+
+  greet () {
+    return `Hello, my name is "${this.name}". I am ${this.age} years old.`
+  }
+}
+
+const createPrivatePerson = createFactory(Person, { referenceClass: true })
+const anon = createPrivatePerson({ name: 'John Doe', age: 42 })
+anon.class === Person // true
+```
 
 ## Code Quality
 
@@ -80,6 +172,15 @@ To build the documentation in development, you need to run
 ```bash
 $ npm run docs
 ``` 
+
+## Build the package
+
+The package can be build into the `dist` folder using `babel` and the respective script:
+
+```bash
+$ npm run build
+```
+
 
 ## License
 

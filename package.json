@@ -1,5 +1,5 @@
 {
-  "name": "proxy-members",
+  "name": "class-privacy",
   "version": "1.0.0",
   "description": "Simple way to define private members on ES6 classes, keep their code clean.",
   "main": "dist/index.js",
