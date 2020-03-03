@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/jankapunkt/npm-package-template.svg?branch=master)](https://travis-ci.org/jankapunkt/js-class-privacy)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+![npm bundle size](https://img.shields.io/bundlephobia/min/class-privacy)
 
 
 Lean dry no-dep srp :cup: package to create instances from classes with defined private members.

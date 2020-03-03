@@ -1,6 +1,6 @@
 {
   "name": "class-privacy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple way to define private members on ES6 classes, keep their code clean.",
   "main": "dist/index.js",
   "scripts": {
@@ -46,9 +46,9 @@
   "author": "Jan Küster",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jankapunkt/npm-package-template/issues"
+    "url": "https://github.com/jankapunkt/js-class-privacy"
   },
-  "homepage": "https://github.com/jankapunkt/npm-package-template#readme",
+  "homepage": "https://github.com/jankapunkt/js-class-privacy#readme",
   "devDependencies": {
     "@babel/cli": "^7.7.7",
     "@babel/core": "^7.7.7",
