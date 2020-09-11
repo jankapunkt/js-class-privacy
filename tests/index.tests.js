@@ -120,5 +120,14 @@ describe(createFactory.name, function () {
       const greet = String(quietPerson.greet)
       expect(greet.indexOf(args.name)).to.equal(-1)
     })
+    it ('does allow injections', function () {
+      const decide = (key, type) => type === 'function'
+      const factory = createFactory(Person, { decide })
+      const args = { name: 'Quiet Joe', age: 66 }
+      const quietPerson = factory(args)
+      console.log(quietPerson.constructor.name)
+      console.log(quietPerson.prototype)
+      console.log(quietPerson['__proto__'])
+    })
   })
 })
